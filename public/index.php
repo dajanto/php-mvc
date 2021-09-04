@@ -1,5 +1,7 @@
 <?php
 
+//phpinfo();
+
 /**
  * Front controller
  *
@@ -26,7 +28,15 @@ set_exception_handler('Core\Error::exceptionHandler');
 $router = new Core\Router();
 
 // Add the routes
-$router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('{controller}/{action}');
-    
-$router->dispatch($_SERVER['QUERY_STRING']);
+$router->add('', ['controller' => 'Home', 'action' => 'index']);
+
+//$router->dispatch($_SERVER['QUERY_STRING']);
+
+if (array_key_exists('QUERY_STRING', $_SERVER)) {
+    $uri = $_SERVER['QUERY_STRING'];
+} else {
+    $uri = '';
+}
+
+$router->dispatch($uri);
